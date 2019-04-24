@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block card %}
+{% include 'blog/_self_card.html' %}
+{% endblock %}
+
+{% block content %}
+<!-- 放置博文主体 -->
+<div class="col-md-6 align-middle" id="show-post">
+    <!-- 将card属性设置为 my-4 避免与导航栏接触 -->
+    <div class="card my-4">
+        <div class="card-body">
+            <!-- 标题;时间;分类; -->
+            <h1 class="card-title">{{ post.title }}
+                <span class="float-right">
+                    {% if current_user.is_authenticated %}
+                    <!-- 编辑按钮; 本来两个按钮宽度不一致,加入btn-block来锁定为父级块的宽度 -->
+                    <a class="btn btn-info btn-sm btn-block" href="#" style="color: white; margin-bottom: 4px;">Edit</a>
+                    <form class="inline">
+                        <!-- 添加了csrf令牌 -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <button type="submit" class="btn btn-danger btn-sm btn-block"
+                            onclick="return confirm('Are you sure?');">Delete
+                        </button>
+                    </form>
+                    
+                    {% endif %}
+                </span></h1>
+
+            <small><i class="fas fa-calendar-day" style="margin-right: 10px;">
+                    {{ moment(post.timestamp).format('L') }}</i>
+                <i class="fas fa-folder" style="margin-right: 10px;"> {{ post.category.name }}</i>
+            </small>
+            <br>
+            <hr>
+            <!-- 正文 -->
+            {{ post.body|safe }}
+            <hr>
+            <!-- 弹出模拟框的按钮 -->
+            <button type="button" class="btn btn-primary btn-sm" data-container="body" data-toggle="popover"
+                data-placement="bottom" title="Permalink"
+                data-content="{{ url_for('.show_post', post_id=post.id, _external=True) }}">Share
+            </button>
+
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block siderbar %}
+{% include 'blog/_sider_bar.html' %}
+{% endblock siderbar %}

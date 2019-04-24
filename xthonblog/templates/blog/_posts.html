@@ -1,0 +1,38 @@
+{% if posts %}
+{% for post in posts %}
+    <style>
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: none;
+            color: #38b7ea;
+        }
+        a:visited{
+            text-decoration: none;
+        }
+        a:active{
+            text-decoration: none;
+        }
+    </style>
+    <!-- 将card属性设置为 my-4 避免与导航栏接触 -->
+    <div class="card my-4">
+        <div class="card-body">
+            <!-- 依次是：标题；时间；分类；摘要； -->
+            <h1 class="card-title"><a href="{{ url_for('.show_post', post_id=post.id) }}">{{ post.title }}</a></h1>
+            <small>
+                    <i class="fas fa-calendar-day" style="margin-right: 5px;"> {{ moment(post.timestamp).format('L') }}</i>
+                    <i class="fas fa-folder" style="margin-right: 10px;"><a href="{{ url_for('.show_category', category_id=post.category.id) }}"> {{ post.category.name }}</a></i>
+            </small>
+
+            <p class="card-text" style="margin-top: 16px;">{{ post.body|striptags|truncate }}</p>
+            <a href="{{ url_for('.show_post', post_id=post.id) }}" class="btn btn-grey">查看更多</a>
+        </div>
+        <div class="card-footer text-muted">
+            <small>由 {{ admin.name }} 发布于 {{ moment(post.timestamp).fromNow(refresh=True) }}</small>
+            
+        </div>
+    </div>
+
+{% endfor %}
+{% endif %}

@@ -1,0 +1,2 @@
+FLASK_APP=xthonblog
+FLASK_ENV=development

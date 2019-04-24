@@ -1,0 +1,79 @@
+<!-- 个人卡片 -->
+<div class="col-md-3 d-none d-block align-middle accordion" id="self-intro-card">
+    <!-- 放置一个卡片 -->
+    <div class="card my-4 mx-4" width="280">
+        <div class="card-header d-block d-sm-none" id="headingOne">
+            <h2 class="mb-0 text-center">
+                <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Introduction Card
+                </button>
+            </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#self-intro-card">
+            <!-- 放置一张图片，令其居中，并做响应式； -->
+            <div class="text-center">
+                <img src="{{ url_for('static', filename='images/head_img.png') }}" alt="self-head-img"
+                    class="embed-responsive-item rounded" width="128px" height="128px"
+                    style="margin-top: 15px; margin-bottom: 15px;">
+            </div>
+            <!-- 设置文本居中; 名字; 签名 -->
+            <div class="card-body text-center" style="padding-top: 0px;">
+                <h4 class="card-title" style="margin-bottom: 0px;">{{admin.name}}</h2>
+                    <p class="card-text" style="
+        margin-bottom: 0px;">
+                        {{ admin.introduction }}
+                    </p>
+                    <!-- 显示位置 -->
+                    <span id="location">
+                        <small><i class="fa fa-map-marked" style="margin-top: 5px;">
+                                {{ admin.location }}</i></small>
+                    </span>
+                    <br>
+                    <button class="btn btn-circle btn-aqua btn-block" style="margin-top: 20px;">
+                        关注我
+                    </button>
+            </div>
+            <hr style="margin-bottom: 0px;">
+            <div class="card-body" style="padding-top: 0px; padding-bottom: 0px;">
+                <div class="row text-center" id="card-inner" style="border-left: 0px;">
+                    <div class="col" id="child-1" style="border-right: 1px solid #eceff2; ">
+                        <!-- 文章总数 -->
+                        {{ post_count }}
+                        <br>
+                        <span>文章</span>
+                    </div>
+
+                    <div class="col" id="child-2">
+                        <!-- 使用过滤器统计分类的总数 -->
+                        {{ categories|length }}
+                        <br>
+                        <span>标签</span>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin: 0px;">
+
+            <!-- 放置外链链接；注意，使用fron awesome是，brand类型的要用fab渲染 -->
+
+            <div class="card-body align-middle">
+                <div class="container">
+                    <div class="row" id="self-intro-row">
+
+                        {% for link in links %}
+                        <div class="col-3">
+                            <a href="{{ link.url }}">
+                                <span style="color:grey">
+                                    <i class="fab fa-{{ link.name }} fa-lg"></i>
+                                </span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

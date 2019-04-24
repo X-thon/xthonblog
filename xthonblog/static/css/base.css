@@ -1,0 +1,104 @@
+#logo{
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: #565a5f;
+}
+
+li.nav-item{
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#navbar-top{
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#navbar-right{
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+ul.navbar{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#body-container{
+    padding-left: 45px;
+    padding-right: 45px;
+}
+
+#self-intro-card{
+    padding-left: 0px;
+}
+
+#child-1{
+    width: 50%;
+    float: left;
+    padding: 20px 15px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: rgb(236, 239, 242);
+}
+
+#child-2{
+    width: 50%;
+    float: left;
+    padding: 20px 15px;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+    font-size: 150%;
+    color: #565a5f;
+}
+
+p{
+    font-weight: normal;
+    font-size: 100%;
+    color: rgb(86, 90, 95);
+}
+
+i, img{
+    color: #565a5f;
+}
+
+a, a:hover, a:visited, a:active{
+    text-decoration: none;
+    color: #565a5f;
+}
+
+.btn-grey:hover{
+    background: #38b7ea;
+    color: #fff;
+    text-decoration: none;
+    
+}
+
+#page-footer.page-link{
+    color: grey;
+    background-color: white;
+    border-color: #dee2e6;
+}

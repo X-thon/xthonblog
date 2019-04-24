@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <!-- 指定字符集 -->
+    <meta charset="UTF-8">
+    <!-- 添加响应式的meta标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit=no>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+
+    <!-- 引入fron-awesome图标CDN -->
+    <link rel="stylesheet" href="./static/fontawesome-free-5.8.1-web/css/all.css">
+    <link rel="stylesheet" href="./static/fontawesome-free-5.8.1-web/css/solid.css">
+    <link rel="stylesheet" href="./static/fontawesome-free-5.8.1-web/css/brands.css">
+    <link rel="stylesheet" href="./static/fontawesome-free-5.8.1-web/css/regular.css">
+
+    <!-- 引入按钮插件 -->
+    <link rel="stylesheet" href="./static/css/button.css">
+
+    <!-- 自定义的CSS -->
+    <link rel="stylesheet" href="./static/css/base.css">
+
+    {% block title %}
+    <!-- 网页标签栏 -->
+    <title>Base-dev</title>
+    {% endblock title %}
+    {% endblock head %}
+</head>
+
+<body>
+    {% block nav %}
+    <!-- 放置导航栏; 添加fixed-top将导航栏固定到顶部 -->
+    <div class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar-top">
+        <!-- 放置导航栏图标以及显示框 -->
+        <a href="#" class="navbar-brand" id="logo">
+            <img src="./static/images/head_img.png" alt="" class="d-inline-block align-top" width="30" height="30">
+            XthonBlog
+        </a>
+        <!-- 接着加入一个响应式按钮 -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <!-- 编写加入按钮的导航items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <!-- active属性加粗显示该item -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category 1</a>
+                </li>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#">Category 2</a>
+                </li>
+            </ul>
+            <!-- 放置一个靠右的导航条 ml-auto将其居右; 与bootstrap3中navbar-right不同 -->
+            <ul class="navbar navbar-nav ml-auto" id="navbar-right">
+                <!-- 放置一个搜索框 -->
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fa fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!-- 在这里放置一个头像与其下拉图标 -->
+                <li class="nav-item">
+                    <a href="#" class="navbar-brand" id="head-logo">
+                        <img src="./static/images/head_img.png" alt="" width="30" height="30">
+                        <!-- 预留一个放下拉键的span位置 -->
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 防止覆盖元素 -->
+    <style>
+        .fixed-top {
+            position: relative
+        }
+    </style>
+    {% endblock nav %}
+
+    <main>
+        <div class="container-fluid" id="body-container">
+
+            <!-- 页面主体 -->
+            <div class="row">
+
+                <!-- 预留一个位置 -->
+                <div class="col-md-3 d-none d-block align-middle " id="self-intro-card">
+                    
+                    <!-- 放置一个卡片 -->
+                    <div class="card my-4 mx-4 " width="280">
+                        
+                        <!-- 放置一张图片，令其居中，并做响应式； -->
+                        <div class="text-center">
+                            <img src="./static/images/head_img.png" alt="self-head-img"
+                                class="embed-responsive-item rounded" width="128px" height="128px"
+                                style="margin-top: 15px; margin-bottom: 15px;">
+                                <!-- 折叠个人头像 -->
+                    <button class="toggler" type="button" data-toggle="collapse" data-target="#self-intro-card"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" id="self-btn">
+                    <span><i class="fa fa-house-damage"></i></span>
+                </button>
+                        </div>
+                        <!-- 设置文本居中; 名字; 签名 -->
+                        <div class="card-body text-center collapse show" style="padding-top: 0px;">
+                            <h4 class="card-title" style="margin-bottom: 0px;">{{admin.name}}</h2>
+                                <p class="card-text" style="
+                            margin-bottom: 0px;">
+                                    {{ admin.introduction }}
+                                </p>
+                                <!-- 显示位置 -->
+                                <span id="location">
+                                    <small><i class="fa fa-map-marked" style="margin-top: 5px;">
+                                            {{ admin.location }}</i></small>
+                                </span>
+                                <br>
+                                <button class="btn btn-circle btn-aqua btn-block" style="margin-top: 20px;">
+                                    关注我
+                                </button>
+                        </div>
+                        <hr style="margin-bottom: 0px;">
+                        <div class="card-body" style="padding-top: 0px; padding-bottom: 0px;">
+                            <div class="row text-center" id="card-inner" style="border-left: 0px;">
+                                <div class="col" id="child-1" style="border-right: 1px solid #eceff2; ">
+                                    <!-- 文章总数 -->
+                                    {{ post_count }}
+                                    <br>
+                                    <span>文章</span>
+                                </div>
+
+                                <div class="col" id="child-2">
+                                    <!-- 使用过滤器统计分类的总数 -->
+                                    {{ categories|length }}
+                                    <br>
+                                    <span>标签</span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin: 0px;">
+
+                        <!-- 放置外链链接；注意，使用fron awesome是，brand类型的要用fab渲染 -->
+
+                        <div class="card-body align-middle">
+                            <div class="container">
+                                <div class="row" id="self-intro-row">
+
+                                    {% for link in links %}
+                                    <div class="col-3">
+                                        <a href="{{ link.url }}">
+                                            <span style="color:grey">
+                                                <i class="fab fa-{{ link.name }} fa-lg"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% block content %}{% endblock content %}
+
+                {% block siderbar %}{% endblock siderbar %}
+
+
+            </div>
+            <hr style="color:grey; height: 1px;">
+
+            <!-- 页脚模块 -->
+            {% block footer %}
+            <footer>
+                <!-- 指向博客链接与项目的Github仓库 -->
+                <p class="float-left align-content-center">
+                    <small> &copy; 2018 <a href="#" title="Written by Xthon">Xthon</a> -
+                        <a href="#" title="Fork me on GitHub">GitHub</a>
+                    </small>
+                </p>
+
+                <p class="float-right">
+                    <small>
+                        <!-- 根据登陆状态渲染 -->
+                        {% if admin %}
+                        <a href="#">Logout</a>
+                        {% else %}
+                        <a href="#">Login</a>
+                        {% endif %}
+                    </small>
+                </p>
+            </footer>
+            {% endblock footer %}
+        </div>
+    </main>
+
+    {% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, the Bootstrap JS -->
+    <script src="./static/js/jquery-3.2.1.min.js"></script>
+    <script src="./static/js/popper.min.js"></script>
+    <script src="./static/js/bootstrap.min.js"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+    {% endblock script %}
+</body>
+
+</html>
+
+
+
+<!-- 放置一个靠右的导航条 ml-auto将其居右; 与bootstrap3中navbar-right不同 -->
+<ul class="navbar navbar-nav ml-auto" id="navbar-right">
+        <!-- 放置一个搜索框 -->
+        <form class="form-inline">
+            <div class="input-group">
+                <input type="text" class="form-control">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button">
+                        <i class="fa fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- 在这里放置一个头像与其下拉图标 -->
+        <li class="nav-item">
+            <a href="#" class="navbar-brand" id="head-logo">
+                <img src="{{ url_for('static', filename='images/head_img.png') }}" alt="" width="30"
+                    height="30">
+                <!-- 预留一个放下拉键的span位置 -->
+            </a>
+        </li>
+    </ul>

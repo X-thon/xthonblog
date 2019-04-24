@@ -1,0 +1,194 @@
+{% from 'bootstrap/nav.html' import render_nav_item %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <!-- 指定字符集 -->
+    <meta charset="UTF-8">
+    <!-- 添加响应式的meta标签 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" shrink-to-fit=no>
+
+    <!-- Bootstrap CSS -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <!-- 引入fron-awesome图标CDN -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-5.8.1-web/css/all.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-5.8.1-web/css/solid.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-5.8.1-web/css/brands.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-5.8.1-web/css/regular.css') }}">
+
+    <!-- 引入按钮插件 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
+
+    <!-- 自定义的CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+
+    <title>
+        {% block title %}
+        <!-- 网页标签栏 -->
+        Base-dev
+        {% endblock title %}
+    </title>
+
+    <link rel="icon" href="../static/images/icon2.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/images/icon2.ico" type="image/x-icon">
+
+    {% endblock head %}
+</head>
+
+<body>
+    {% block nav %}
+    <!-- 放置导航栏; 添加fixed-top将导航栏固定到顶部 -->
+    <div class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar-top">
+        <!-- 放置导航栏图标以及显示框 -->
+        <a href="{{ url_for('blog.index') }}" class="navbar-brand" id="logo">
+            <img src="{{ url_for('static', filename='images/head_img.png') }}" alt="" class="d-inline-block align-top"
+                width="30" height="30">
+            XthonBlog
+        </a>
+        <!-- 接着加入一个响应式按钮 -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- 编写加入按钮的导航items -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- active属性加粗显示该item -->
+            <!-- <ul class="navbar-nav mr-auto">     
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Category 1</a>
+                </li>
+                <li class="nav-item disabled">
+                    <a class="nav-link" href="#">Category 2</a>
+                </li>
+            </ul> -->
+            
+            <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                New <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Post</a>
+                                <a class="dropdown-item" href="#">Category</a>
+                                <!-- <a class="dropdown-item" href="#">Link</a> -->
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true"
+                               aria-expanded="false">
+                                Manage <span class="caret"></span>
+                                <!-- {% if unread_comments %}
+                                    <span class="badge badge-success">new</span>
+                                {% endif %} -->
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">Post</a>
+                                <a class="dropdown-item" href="#">Category</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.settings') }}">Setting</a>
+                                <!-- 待增加评论未阅读功能;管理评论功能; -->
+                                <!-- <a class="dropdown-item" href="#">
+                                    Comment
+                                    {% if unread_comments %}
+                                        <span class="badge badge-success">{{ unread_comments }}</span>
+                                    {% endif %}
+                                </a> -->
+                                <!-- 由于Link的渲染涉及到font-awesome,所以先不开放更改 -->
+                                <!-- <a class="dropdown-item" href="#">Link</a> -->
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+        </div>
+    </div>
+    <!-- 防止覆盖元素 -->
+    <style>
+        .fixed-top {
+            position: relative
+        }
+    </style>
+    {% endblock nav %}
+
+    <main>
+        <div class="container-fluid" id="body-container">
+
+            {% for message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{ message[0] }}" role="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message[1] }}
+            </div>
+            {% endfor %}
+
+            <!-- 页面主体 -->
+            <div class="row">
+                
+                {% block card %}{% endblock card %}
+
+                {% block content %}{% endblock content %}
+
+                {% block siderbar %}{% endblock siderbar %}
+
+
+            </div>
+            {% block hr %}
+            <hr style="color:grey; height: 1px;">
+            {% endblock hr %}
+
+            <!-- 页脚模块 -->
+            {% block footer %}
+            <footer>
+                <!-- 指向博客链接与项目的Github仓库 -->
+                <p class="float-left align-content-center">
+                    <small> &copy; 2018 <a href="#" title="Written by Xthon">Xthon</a> -
+                        <a href="#" title="Fork me on GitHub">GitHub</a>
+                    </small>
+                </p>
+
+                <p class="float-right">
+                    <small>
+                        <!-- 根据登陆状态渲染 -->
+                        {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
+                        {% else %}
+                        <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
+                        {% endif %}
+                    </small>
+                </p>
+            </footer>
+            {% endblock footer %}
+        </div>
+    </main>
+
+    {% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, the Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {{ moment.include_moment(local_js=url_for('static', filename='js/moment-with-locales.min.js')) }}
+    {{ moment.locale('zh-cn') }}
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover(
+
+            );
+        });
+    </script>
+
+    {% endblock script %}
+</body>
+
+
+
+</html>

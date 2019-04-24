@@ -1,0 +1,23 @@
+<!-- 页脚模块 -->
+{% block footer %}
+<footer>
+    <!-- 指向博客链接与项目的Github仓库 -->
+    <p class="float-left align-content-center">
+        <small> &copy; 2018 <a href="#" title="Written by Xthon">Xthon</a> -
+            <a href="#" title="Fork me on GitHub">GitHub</a> -
+            
+        </small>
+    </p>
+    
+    <p class="float-right">
+        <small>
+            <!-- 根据登陆状态渲染 -->
+            {% if admin %}
+            <a href="#">Logout</a>
+            {% else %}
+            <a href="#">Login</a>
+            {% endif %}
+        </small>
+    </p>
+</footer>
+{% endblock footer %}

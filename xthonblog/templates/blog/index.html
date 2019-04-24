@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block card %}
+{% include 'blog/_self_card.html' %}
+{% endblock %}
+
+{% block content %}
+<!-- 放置博文 -->
+<div class="col-md-6 align-middle" id="show-post">
+    {% include 'blog/_posts.html' %}
+
+    {% if posts %}
+    <div class="page-footer" id="page-footer">{{ render_pagination(pagination, align="center") }}</div>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block siderbar %}
+{% include 'blog/_sider_bar.html' %}
+{% endblock siderbar %}
