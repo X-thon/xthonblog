@@ -1,27 +1,24 @@
-#存储扩展实例化等操作
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
+from flask_mongoengine import MongoEngine
+from flask_ckeditor import CKEditor
 from flask_moment import Moment
-#添加CSRF验证
-from flask_wtf import CSRFProtect
-#引入login
 from flask_login import LoginManager
+from flask_wtf import CSRFProtect
 
 bootstrap = Bootstrap()
-db = SQLAlchemy()
-mail = Mail()
+db = MongoEngine()
 moment = Moment()
-csrf = CSRFProtect()
+ckeditor = CKEditor()
 login_manager = LoginManager()
+csrf = CSRFProtect()
 
 
 #用户加载函数
 #接收用户的id，返回对应的用户对象
 @login_manager.user_loader
 def load_user(user_id):
-    from xthonblog.models import Admin
-    user = Admin.query.get(int(user_id))
+    from smallblog.models import Admin
+    user = Admin.objects(username="admin").first()
     return user
 
 

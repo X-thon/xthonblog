@@ -3,121 +3,60 @@ from random import randint
 from faker import Faker
 from sqlalchemy.exc import IntegrityError
 
-from xthonblog.models import Admin, Category, Post, Comment, Link
+from xthonblog.models import Admin, Category, Post, Link
 from xthonblog import db
 
 fake = Faker()
 
+category_name = []
+
 def fake_admin():
     admin = Admin(
-        username='admin',
-        blog_title='xthonblog',
-        blog_sub_title='None, this not reality.',
-        name='Xthon',
-        #about='Aha, I, Xthon, had a fun time as a member of CHAM...',
-        location='China, Nanjing',
-        introduction="Welcome to my blog! I will write my thinks in here. I love this."
+        username = 'admin',
+        blog_title = "黄靖文的小博客",
+        blog_sub_title = "Just write something in here.",
+        name = "B16041211 黄靖文",
+        location = "China, Nanjing",
+        introduction = "Welcome to my blog! I will write my thinks in here."
     )
-    #调用
-    admin.set_password('qweasdzxc123')
-    db.session.add(admin)
-    db.session.commit()
+    admin.set_password("qweasdzxc")
+    admin.save()
 
 
-
-def fake_categories(count=10):
-    category = Category(name='Default')
-    db.session.add(category)
-
+# count为要生成的分类数量
+def fake_categories(count=5):
+    category = Category(id=0, name="Default")
+    category.save()
+    category_name.append(category)
     for i in range(count):
-        #使用fake.word()生成虚拟词
-        category = Category(name=fake.word())
-        db.session.add(category)
-        try:
-            db.session.commit()
-        #重名错误
-        except IntegrityError:
-            db.session.rollback()
+        category = Category(id=i+1, name=fake.word())
+        category.save()
+        category_name.append(category)
 
 
-
-def fake_posts(count=30):
+def fake_posts(count=50):
+    
+    #categories = Category.objects
     for i in range(count):
+        category = category_name[randint(0,5)]
         post = Post(
-            title=fake.sentence(),
-            body=fake.text(2000),
-            #在Category类中随机获取一个
-            category=Category.query.get(randint(1, Category.query.count())),
-            timestamp=fake.date_time_this_year()
+            id = i,
+            title = fake.sentence(),
+            body = fake.text(2000),
+            timestamp = fake.date_time_this_year(),
+            belong = category
         )
-
-        db.session.add(post)
-    db.session.commit()
-
-
-
-def fake_comments(count=500):
-    for i in range(count):
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            reviewed=True,
-            post=Post.query.get(randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
-
-    #添加未被审阅的评论
-    salt = int(count * 0.1)
-    for i in range(salt):
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            reviewed=False,
-            post=Post.query.get(randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
-
-        #添加来自管理员的评论
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            from_admin=True,
-            reviewed=False,
-            post=Post.query.get(randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
-    db.session.commit()
-
-    #添加回复
-    for i in range(salt):
-        comment = Comment(
-            author=fake.name(),
-            email=fake.email(),
-            site=fake.url(),
-            body=fake.sentence(),
-            timestamp=fake.date_time_this_year(),
-            reviewed=False,
-            replied=Comment.query.get(randint(1, Comment.query.count())),
-            post=Post.query.get(randint(1, Post.query.count()))
-        )
-        db.session.add(comment)
-    db.session.commit()
-
-
-
+        category.posts.append(post)
+        post.save()
+        #You can only reference documents once they have been saved to the database: ['posts']
+        category.save()
+        
 def fake_link():
     github = Link(name="github", url="#")
     twitter = Link(name="twitter", url="#")
     weibo = Link(name="weibo", url="#")
     steam = Link(name="steam", url="#")
-    db.session.add_all([github, twitter, weibo, steam])
-    db.session.commit()
+    github.save()
+    twitter.save()
+    weibo.save()
+    steam.save()

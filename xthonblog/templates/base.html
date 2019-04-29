@@ -47,7 +47,7 @@
         <a href="{{ url_for('blog.index') }}" class="navbar-brand" id="logo">
             <img src="{{ url_for('static', filename='images/head_img.png') }}" alt="" class="d-inline-block align-top"
                 width="30" height="30">
-            XthonBlog
+            SmallBlog
         </a>
         <!-- 接着加入一个响应式按钮 -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -57,18 +57,6 @@
 
         <!-- 编写加入按钮的导航items -->
         <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- active属性加粗显示该item -->
-            <!-- <ul class="navbar-nav mr-auto">     
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Category 1</a>
-                </li>
-                <li class="nav-item disabled">
-                    <a class="nav-link" href="#">Category 2</a>
-                </li>
-            </ul> -->
             
             <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_authenticated %}
@@ -94,9 +82,9 @@
                                 {% endif %} -->
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">Post</a>
+                                <a class="dropdown-item" href="#">Post</a>
                                 <a class="dropdown-item" href="#">Category</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.settings') }}">Setting</a>
+                                <a class="dropdown-item" href="#">Setting</a>
                                 <!-- 待增加评论未阅读功能;管理评论功能; -->
                                 <!-- <a class="dropdown-item" href="#">
                                     Comment
@@ -150,7 +138,7 @@
             <footer>
                 <!-- 指向博客链接与项目的Github仓库 -->
                 <p class="float-left align-content-center">
-                    <small> &copy; 2018 <a href="#" title="Written by Xthon">Xthon</a> -
+                    <small> &copy; 2019 <a href="#" title="Written by B16041211 黄靖文">B16041211 黄靖文</a> -
                         <a href="#" title="Fork me on GitHub">GitHub</a>
                     </small>
                 </p>

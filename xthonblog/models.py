@@ -6,90 +6,62 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
-#定义管理员用户类
-class Admin(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20))
-    #存储列表哈希加密之后的值
-    password_hash = db.Column(db.String(128))
-    blog_title = db.Column(db.String(60))
-    blog_sub_title = db.Column(db.String(100))
-    name = db.Column(db.String(30))
-    about = db.Column(db.Text)
-    location = db.Column(db.String(20))
-    introduction = db.Column(db.String(80))
-    
 
-    #加密密码
+# 定义管理员用户类
+class Admin(db.Document, UserMixin):
+    meta = {
+        'collection': 'admin',
+        'ordering': ['-create_at']
+    }
+
+    username = db.StringField(max_length=20)
+    create_at = db.DateTimeField(default=datetime.now)
+    # 密码存储哈希加密之后的值
+    password_hash = db.StringField(max_length=128)
+    # 博客的正副标题
+    blog_title = db.StringField(max_length=60)
+    blog_sub_title = db.StringField(max_length=100)
+    # 要显示的博客主人名
+    name = db.StringField(max_length=30)
+    location = db.StringField(max_length=20)
+    introduction = db.StringField(max_length=80)
+
+    # 密码加密函数
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+    # 密码验证函数
     def validate_password(self, password):
         return check_password_hash(self.password_hash, password)
 
 
-
-#定义Tags类
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), unique=True)
-    #定义集合关系属性
-    #第一个参数是关系另一侧的模型名称; back_populates定义了一个双向关系
-    posts = db.relationship('Post', back_populates='category')
-
-    def delete(self):
-        default_category = Category.query.get(1)
-        posts = self.posts[:]
-        for post in posts:
-            post.category = default_category
-        db.session.delete(self)
-        db.session.commit()
+class Category(db.Document):
+    meta = {
+        'collection': 'category',
+        'ordering': ['-create_at']
+    }
+    id = db.IntField(primary_key=True)
+    name = db.StringField()
+    posts = db.ListField(db.ReferenceField("Post"))
 
 
-
-#定义博文类
-class Post(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(60))
-    body = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-    can_comment = db.Column(db.Boolean, default=True)
-
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-
-    category = db.relationship('Category', back_populates='posts')
-    #cascade参数设置为"all, delete-orphan"时表示，删除父级对象时，所有所属的comment对象也将被删除；当父级对象与某个子对象解除关系时，子对象也将被删除
-    comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
+class Post(db.Document):
+    meta = {
+        'collection': 'post',
+        'ordering': ['-create_at']
+    }
+    id = db.IntField(primary_key=True)
+    title = db.StringField()
+    body = db.StringField()
+    timestamp = db.DateTimeField(default=datetime.utcnow)
+    # 属于那个分类
+    belong = db.ReferenceField(Category)
 
 
-
-
-#定义评论类
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    author = db.Column(db.String(30))
-    email = db.Column(db.String(254))
-    site = db.Column(db.String(255))
-    body = db.Column(db.Text)
-    #存储该评论是否来自于管理员,默认为False
-    from_admin = db.Column(db.Boolean, default=False)
-    reviewed = db.Column(db.Boolean, default=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
-
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-    post = db.relationship('Post', back_populates='comments')
-
-    #层级联结
-    replied_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
-    #replies为集合关系属性
-    replies = db.relationship("Comment", back_populates='replied', cascade="all, delete-orphan")
-    replied = db.relationship("Comment", back_populates='replies', remote_side=[id])
-
-
-
-
-#定义链接类
-class Link(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30))
-    url = db.Column(db.String(255))
+class Link(db.Document):
+    meta = {
+        'collection': 'link',
+        'ordering': ['-create_at']
+    }
+    name = db.StringField()
+    url = db.StringField()

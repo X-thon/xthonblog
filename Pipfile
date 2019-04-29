@@ -12,6 +12,7 @@ bootstrap-flask = "*"
 flask-wtf = "*"
 flask-mail = "*"
 sendgrid = "*"
+flask-mongoengine = "*"
 
 [requires]
 python_version = "3.7"

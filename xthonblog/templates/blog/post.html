@@ -33,7 +33,7 @@
 
             <small><i class="fas fa-calendar-day" style="margin-right: 10px;">
                     {{ moment(post.timestamp).format('L') }}</i>
-                <i class="fas fa-folder" style="margin-right: 10px;"> {{ post.category.name }}</i>
+                <i class="fas fa-folder" style="margin-right: 10px;"> {{ post.belong.name }}</i>
             </small>
             <br>
             <hr>
@@ -57,3 +57,4 @@
 {% block siderbar %}
 {% include 'blog/_sider_bar.html' %}
 {% endblock siderbar %}
+
