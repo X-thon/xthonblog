@@ -15,11 +15,11 @@ from xthonblog.blueprints.auth import auth_bp
 from xthonblog.blueprints.blog import blog_bp
 #从扩展模块中加载扩展对象
 from xthonblog.extensions import bootstrap, db, mail, moment, csrf, login_manager
+from xthonblog.extensions import cache, toolbar, migrate
 #从数据库模型中加载模型对象
 from xthonblog.models import Admin, Category, Post, Comment, Link
-#加载配置
-from xthonblog.config import config
 
+from datetime import timedelta
 
 
 #使用工程函数创建程序实例
@@ -31,9 +31,11 @@ def create_app(config_name=None):
     #使用项目名初始化程序实例
     app = Flask("xthonblog")
     app.config.from_object(config[config_name])
+    app.debug = True
     #
     app.config['SECRET_KEY'] = "development key"
-    
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1)
+
     #注册蓝本
     register_blueprints(app)
     register_extensions(app)
@@ -62,6 +64,10 @@ def register_extensions(app):
     moment.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app)
+
+    cache.init_app(app)
+    toolbar.init_app(app)
 
 
 #注册命令行上下文

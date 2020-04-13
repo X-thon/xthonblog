@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request, current_ap
 from flask_login import login_required, current_user
 from flask_ckeditor import upload_success, upload_fail
 
-from xthonblog.extensions import db
+from xthonblog.extensions import db, cache
 from xthonblog.forms import SettingForm, PasswordField, CategoryForm, LinkForm
 from xthonblog.models import Post, Category, Comment, Link
 from xthonblog.utils import redirect_back
@@ -12,6 +12,7 @@ from xthonblog.utils import redirect_back
 admin_bp = Blueprint("admin", __name__)
 
 @admin_bp.route('/settings', methods=['GET', 'POST'])
+@cache.cached(timeout=60)
 @login_required
 def settings():
     form = SettingForm()

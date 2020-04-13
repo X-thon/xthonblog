@@ -1,0 +1,295 @@
+*, body, html {
+    font-family: "PingFang SC","Microsoft YaHei",Simsun,Helvetica,Arial,sans-serif;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    padding-left: 0px;
+
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    list-style: none;
+}
+
+#data_from {
+    font-size: 14px;
+    color: #fff;
+    opacity: .6;
+    height: 19px;
+    line-height: 19px;
+    margin-bottom: 20px;
+}
+
+#ct-current .container {
+    height: 310px;
+    background-repeat: no-repeat;
+    background-position: right top;
+    position: relative;
+}
+
+#navbar{
+    padding-left: 0px;
+    background-repeat: no-repeat;
+    background-position: right top;
+    position: relative;
+}
+
+
+body {
+    background:#f6f9fe 
+    url(../images/weather/background.jpg) 
+    no-repeat center top
+}
+
+#ct-current{
+    padding: 0;
+    margin: 0;
+}
+
+#ct-current #ct-main {
+    height: 86px;
+    margin-bottom: 28px;
+    vertical-align: bottom;
+    font-size: 0;
+}
+#ct-current #ct-main #city-name {
+    display: inline-block;
+    font-size: 86px;
+    color: #fff;
+    height: 86px;
+    line-height: 86px;
+    padding-right: 24px;
+}
+#ct-current #ct-main #txt-temperature {
+    display: inline-block;
+    font-size: 86px;
+    color: #fff;
+    height: 86px;
+    line-height: 86px;
+}
+
+#ct-current #ct-main #txt-name {
+    display: inline-block;
+    font-size: 28px;
+    color: #fff;
+    line-height: 45px;
+    height: 45px;
+    margin-right: 24px;
+}
+
+#ct-current #ct-main #ct-aqi {
+    display: inline-block;
+    position: relative;
+    margin-right: 24px;
+    cursor: pointer;
+}
+
+#ct-current #ct-main #tip-aqi {
+    display: inline-block;
+    font-size: 18px;
+    color: #fff;
+    line-height: 45px;
+    height: 45px;
+}
+
+#ct-current #ct-main #info-aqi {
+    display: inline-block;
+    font-size: 18px;
+    color: #fff;
+    line-height: 45px;
+    height: 45px;
+    margin-right: 24px;
+}
+
+#ct-current #ct-tips {
+    letter-spacing: 0;
+}
+
+#ct-current #ct-tips #txt-tips {
+    vertical-align: middle;
+    font-size: 20px;
+    color: #fff;
+    line-height: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+#ct-current #ct-current-weather {
+    position: absolute;
+    top: 78px;
+    right: 80px;
+    width: 134px;
+    height: 134px;
+}
+
+#ct-hours {
+    height: auto;
+    margin: 130px auto 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 14px 0 rgba(0,0,0,.08);
+    width: 1140px;
+    padding: 20px 30px 27px;
+    overflow: hidden;
+}
+#ct-hours #title {
+    font-size: 18px;
+    color: #344665;
+    height: 21px;
+    line-height: 21px;
+    margin-bottom: 22px;
+    float: left;
+    margin-right: 10px;
+}
+
+#ct-hours #txt-source {
+    float: left;
+    font-size: 12px;
+    color: #8a9baf;
+    height: 21px;
+    line-height: 21px;
+}
+
+#ct-hours #ct-weather {
+    clear: both;
+    width: 4800px;
+    -webkit-transition: margin 1s ease-in-out;
+    -moz-transition: margin 1s ease-in-out;
+    -ms-transition: margin 1s ease-in-out;
+    -o-transition: margin 1s ease-in-out;
+    transition: margin 1s ease-in-out;
+}
+
+#ct-hours #ls-weather-hour .item {
+    float: left;
+    width: 40px;
+    margin-right: 51px;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: right;
+    position: relative;
+}
+
+#ct-hours #ls-weather-hour .item .txt-time {
+    font-size: 14px;
+    color: #8a9baf;
+    line-height: 14px;
+    height: 14px;
+    margin-bottom: 24px;
+}
+#ct-hours #ls-weather-hour .item .icon {
+    display: block;
+    height: 30px;
+    width: 30px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+img {
+    border: none;
+    display: block;
+}
+#ct-hours #ls-weather-hour .item .txt-degree {
+    font-size: 18px;
+    color: #384c78;
+    line-height: 14px;
+}
+
+#ct-7-days {
+
+    padding: 20px 0 0;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 14px 0 rgba(0,0,0,.08);
+}
+
+#ct-7-days #title {
+    font-size: 18px;
+    color: #344665;
+    line-height: 25px;
+    height: 25px;
+    margin-bottom: 18px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+#ct-7-days .row .col {
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: right;
+    position: relative;
+    padding: 11px 0 25px;
+}
+
+#ct-7-days .row .col .max-temperature {
+    display: none;
+}
+
+#ct-7-days .row .col .day {
+    font-size: 14px;
+    color: #384c78;
+    margin-bottom: 12px;
+    height: 14px;
+    line-height: 14px;
+}
+
+#ct-7-days .row .col .date {
+    font-size: 12px;
+    color: #8a9baf;
+    margin-bottom: 30px;
+    height: 12px;
+    line-height: 12px;
+}
+
+#ct-7-days .row .col .weather {
+    font-size: 14px;
+    color: #384c78;
+    line-height: 14px;
+    height: 14px;
+}
+#ct-7-days .row .col .icon {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+}
+#ct-7-days .row .col .ct-night {
+    margin-bottom: 24px;
+}
+#ct-7-days .row .col .ct-night .icon {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    margin-bottom: 20px;
+}
+#ct-7-days .row .col .ct-night .weather {
+    font-size: 14px;
+    color: #384c78;
+    line-height: 14px;
+    height: 14px;
+}
+#ct-7-days .row .col .wind {
+    font-size: 12px;
+    color: #8a9baf;
+    line-height: 12px;
+    height: 12px;
+}
+#ct-7-days .row .col .min-temperature {
+    display: none;
+}
+
+.footer {
+    background-color: #f5f5f5;
+    text-align: center;
+}

@@ -18,7 +18,6 @@ class Admin(db.Model, UserMixin):
     about = db.Column(db.Text)
     location = db.Column(db.String(20))
     introduction = db.Column(db.String(80))
-    
 
     #加密密码
     def set_password(self, password):

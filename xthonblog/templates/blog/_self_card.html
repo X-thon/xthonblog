@@ -31,7 +31,7 @@
                                     {{ admin.location }}</i></small>
                         </span>
                         <br>
-                        <button class="btn btn-circle btn-aqua btn-block" style="margin-top: 20px;">
+                        <button class="btn btn-circle btn-aqua btn-block" style="margin-top: 20px;" href="{{ url_for('blog.show_weather') }}">
                             关注我
                         </button>
                 </div>
@@ -102,7 +102,7 @@
                     </span>
                     <br>
                     <button class="btn btn-circle btn-aqua btn-block" style="margin-top: 20px;">
-                        关注我
+                        <a href="{{ url_for('blog.show_weather') }}" style="color: #fff">关注我</a>
                     </button>
             </div>
             <hr style="margin-bottom: 0px;">

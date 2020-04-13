@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<!-- 引入自定义css文件：用来精确控制页面样式 -->
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/my_css.css') }}"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/weather.css') }}">
+
+<!-- 引入Echarts 文件; -->
+<script src="{{ url_for('static', filename='js/echarts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mytheme.js') }}"></script>
+{% endblock head %}
+
+{% block title %}
+
+南京天气
+{% endblock title %}
+
+{% block content %}
+
+<!-- 每2小时天气预报 -->
+<div class="container" id="ct-hours">
+    <h2 id="title">今日气温趋势（南京）</h2>
+    <a id="txt-source" href="#" target="_blank">数据来源于易源数据</a>
+    <div id="ct-weather" style="margin-left: 0px;">
+        <ol style="padding-inline-start: 20px;" id="ls-weather-hour" class="ls-weather">
+            {% for hour in current_day_tend_data %}
+                <li class="item" style="list-style: none;">
+                    <p class="txt-time">{{ hour["time"] }}</p>
+                    {% if "雨" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_small_rain.png') }}">
+                    {% elif "多云" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_cloud.png') }}">
+                    {% elif "晴" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_sun.png') }}">
+                    {% elif "阴" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_yin.png') }}">
+                    {% elif "小雪" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_little_snow.png') }}">
+                    {% elif "雨夹雪" in hour["weather"]%}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_rain_and_snow.png') }}">
+                    {% elif "霾" in hour["weather"] %}
+                    <img class="icon" 
+                        src="{{ url_for('static', filename='images/weather/icon_mai.png') }}">
+                    {% endif %}
+                    <p class="txt-degree">{{ hour["temperature"] }}℃</p>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>
+
+<!-- 展示天气趋势 -->
+<div class="container" style="margin-bottom: 40px;" id="ct-7-days">
+    <!-- 第一行显示标题 -->
+    <h2 id="title2" style="text-align: center">5日天气预报</h2>
+    <!-- 下面开始按列显示5天的天气； -->
+    <div class="row" id="first-forecast-temperature">
+        {% for day in five_day_weather_data %}
+        <div class="col">
+            <!-- 周几 -->
+            <p class="day">{{ day["weekday"]}}</p>
+            <p class="date">{{ day["day"] }}</p>
+            <!-- 天气类型,使用th:if判断天气类型，显示对应的图标 -->
+            <p class="weather">{{ day["day_weather"] }}</p>
+            {% if "雨" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_small_rain.png') }}">
+            {% elif "多云" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_cloud.png') }}">
+            {% elif "晴" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_sun.png') }}">
+            {% elif "阴" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_yin.png') }}">
+            {% elif "小雪" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_little_snow.png') }}">
+            {% elif "雨夹雪" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_rain_and_snow.png') }}">
+            {% elif "霾" in day["day_weather"] %}
+            <img class="icon" 
+                src="{{ url_for('static', filename='images/weather/icon_mai.png') }}">
+            {% endif %}
+                    <!-- 显示风向 -->
+                    <p class="wind" style="padding-top: 16px;">{{ day["day_wind_direction"] }}</p>
+                <!-- 隐藏最高温度，后面用提供给echarts -->
+                <p class="max-temperature">{{ day["day_air_temperature"] }}</p>               
+            </div>
+        {% endfor %}
+        </div>
+        
+
+        <!-- ECharts图表 -->
+        <div class="row">
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="main" style="width:1200px; height:200px;" class="container col"></div>
+        </div>
+
+        <!-- 获取最低气温（晚上）；使用thymeleaf-each遍历 -->
+        <div class="row">
+            {% for day in five_day_weather_data %}
+            <div class="col">
+                <div class="ct-night"> 
+                        {% if "雨" in day["day_weather"] %}
+                        <img class="icon" 
+                            src="{{ url_for('static', filename='images/weather/icon_small_rain.png') }}">
+                        {% elif "多云" in day["day_weather"] %}
+                        <img class="icon" 
+                            src="{{ url_for('static', filename='images/weather/icon_cloud.png') }}">
+                        {% elif "晴" in day["day_weather"] %}
+                        <img class="icon" 
+                            src="{{ url_for('static', filename='images/weather/icon_sun.png') }}">
+                        {% elif "阴" in day["day_weather"] %}
+                        <img class="icon" 
+                            src="{{ url_for('static', filename='images/weather/icon_yin.png') }}">
+                        {% elif "小雪" in day["day_weather"] %}
+                        <img class="icon" 
+                            src="{{ url_for('static', filename='images/weather/icon_little_snow.png') }}">
+                        {% endif %}
+                        <p class="weather">{{ day["day_weather"] }}</p>
+                </div>
+                <!-- 显示风向 -->
+                <p class="wind">{{ day["night_wind_direction"] }}</p>
+                <!-- 隐藏最低温度，后面用提供给echarts -->
+                <p class="min-temperature">{{ day["night_air_temperature"] }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+<!-- 此处使用init方法初始化一个echarts实例 -->
+<script type="text/javascript">
+    //基于准备好的DOM，初始化实例
+    //第二个参数为在echarts主题文件中使用registerTheme注册的主题名称
+    var mychart = echarts.init(document.getElementById('main'), 'mytheme');
+
+    //获取标签数据
+    //构造最高温数据
+    //创建一个空数组，用来依次存放五天的最高温度
+    var max_tmp_data = new Array();
+    //获取页面上所有<p>标签
+    var all_p_tags = document.getElementsByTagName("p");
+    //我们的目的是获取所有class为max-temperature的<p>标签的数据，所以定义一个target_tag_1对应这个class名
+    var target_tag_1 = "max-temperature";
+    //遍历上上步获取的所有<p>标签
+    for(var i = 0; i < all_p_tags.length; i++) {
+        //如果该标签的class名是我们要获取的目标名
+        if(all_p_tags[i].className == target_tag_1){
+            //把标签中的内容，也就是最高温度的数值，从后台传过来的时候是字符串，我们用parseFloat过滤掉文字，将字符串中的数字转换成数字类型
+            tmp = parseFloat(all_p_tags[i].innerHTML);
+            //然后将这个数字存到数组中
+            max_tmp_data.push(tmp);
+        }
+    }
+
+    //构造最低温数据
+    var min_tmp_data = new Array();
+    var all_p_tags = document.getElementsByTagName("p");
+    var target_tag_2 = "min-temperature";
+    for(var i = 0; i < all_p_tags.length; i++) {
+        if(all_p_tags[i].className == target_tag_2) {
+            tmp = parseFloat(all_p_tags[i].innerHTML);
+            min_tmp_data.push(tmp);
+        }
+    }
+
+
+    //指定图表配置项和数据
+    var option = {
+        // title: {
+        //     text: "温度趋势图"
+        // },
+        //x轴
+        xAxis: {
+            type: 'category',
+            data: ['第一天', '第二天', '第三天', '第四天', '第五天'],
+            show: false  //同时隐藏坐标轴和刻度
+        },
+        //y轴
+        yAxis: {
+            type: 'value',
+            show: false,
+        },
+        series: [{
+            //系列中的数据
+            data: max_tmp_data,
+            //图表类型
+            type: 'line',
+            //下方语句为是否堆叠显示
+            //areaStyle: {}
+            //显示每个点的数值
+            itemStyle: {
+                normal: {
+                    color: "#fbca81",
+                    label: {
+                        formatter: "{c}" + "°",
+                        show: true,
+                        position: 'top',
+                        textStyle: {
+                            fontWeight: "bolder",
+                            fontSize: "16",
+                            color: "#fbca81"
+                        }
+                    },
+                    lineStyle: {
+                        color: "#fbca81"
+                    }
+                }
+            }
+        }, {
+            data: min_tmp_data,
+            type: 'line',
+            //itemStyle中，normal-label-show表示是否显示每个点的数值
+            itemStyle: {
+                normal: {
+                    color: "#a0d3f8",
+                    label: {
+                        formatter: "{c}" + "°",
+                        show: true,
+                        position: 'bottom',
+                        textStyle: {
+                            fontWeight: "bolder",
+                            fontSize: "16",
+                            color: "#a0d3f8"
+                        }
+                    },
+                    lineStyle: {
+                        color: "#a0d3f8"
+                    }
+                }
+            },
+        }],
+        //调整图表周围的空白（留白）
+        grid: {
+            top: "50px",
+            bottom: "50px",
+            left: "5px",
+            right: "5px",
+            width: "auto", //图例宽度
+            height: "auto", //图例高度
+        },
+        //调整图表的对齐方式
+        legend: {
+            x: 'center',  //水平居中
+            y: 'center',  //垂直居中
+        },
+    };
+    //渲染图表
+    mychart.setOption(option);
+</script>
+{% endblock content %}
