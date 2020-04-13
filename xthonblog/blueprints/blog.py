@@ -16,17 +16,19 @@ blog_bp = Blueprint("blog", __name__)
 
 
 #定义首页路由
-@blog_bp.route("/")
+@blog_bp.route("/", defaults={'page': 1})
+@blog_bp.route("/page/<int:page>")
 @cache.cached(timeout=60)
-def index():
+def index(page):
     """
     describe：This page is the blog's home page. First visit the blog will direct to this page.
               This page will display the article record after paging and Navigation Bar.
     :return:
     """
     #将所有博文按照时间戳排序之后取出；传入模版；
-    page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['BLUELOG_POST_PER_PAGE']
+    #page = request.args.get('page', 1, type=int)  # 添加了这一行之后导致每一次取的都是第一分页； 自己按照教程实践项目后没有做对应的修改
+    #per_page = current_app.config['BLUELOG_POST_PER_PAGE']
+    per_page = 5
     pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
     posts = pagination.items
     return render_template("blog/index.html", pagination=pagination, posts=posts)
